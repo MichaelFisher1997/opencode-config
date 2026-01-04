@@ -48,10 +48,10 @@ My personal OpenCode AI configuration with multi-provider support, MCP servers, 
 
 | Provider | Plan | Route | Notes |
 |----------|------|-------|-------|
-| **Z.AI** | GLM-4.7 Coding Plan | Direct API | Best rates, coding plan credits |
-| **OpenRouter** | Minimax BYOK | Via OpenRouter | Uses Minimax coding plan API key |
+| **Z.AI** | GLM-4.7 Coding Plan | Direct API | Direct provider access |
+| **OpenRouter** | Minimax BYOK | Via OpenRouter | Minimax coding plan API key |
 
-> **Why OpenRouter BYOK for Minimax?** Z.AI's coding plan API key doesn't work with OpenRouter BYOK anymore. When routed through OpenRouter, Z.AI charges API cost instead of coding plan credits. We use Minimax via OpenRouter BYOK instead for proper coding plan billing.
+> **Why OpenRouter BYOK for Minimax?** OpenCode's provider system requires one provider per API. Since Z.AI and Minimax are separate, we use Z.AI directly for GLM models and Minimax via OpenRouter BYOK for Minimax models.
 
 ### 🔧 MCP Servers
 
