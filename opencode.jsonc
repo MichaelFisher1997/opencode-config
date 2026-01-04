@@ -4,8 +4,7 @@
   "small_model": "zai-coding-plan/glm-4.6v-flash",
   "plugin": [
     "opencode-antigravity-auth@1.2.7",
-    "opencode-openai-codex-auth@4.2.0",
-    "~/.config/opencode/plugin/git-hooks.ts"
+    "opencode-openai-codex-auth@4.2.0"
   ],
   "autoshare": false,
   "autoupdate": true,
