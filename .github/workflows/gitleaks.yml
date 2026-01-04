@@ -1,25 +1,264 @@
-name: Scan for Secrets (Gitleaks)
-
+name: security-scan
 on:
   push:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  workflow_dispatch:
 
 permissions:
   contents: read
+  issues: write
   security-events: write
 
 jobs:
-  gitleaks:
-    name: Gitleaks Scan
+  security-scan:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      issues: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Run Gitleaks
-        uses: gitleaks/gitleaks-action@main
+        with:
+          fetch-depth: 0
+      - name: Run GitLeaks
+        id: gitleaks
+        uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+          continue-on-error: true
+      - name: Check for GitLeaks findings
+        id: check-findings
+        run: |
+          echo "Checking for GitLeaks findings..."
+          ls -la *.sarif 2>/dev/null || echo "No SARIF files found"
+          if [ -f "results.sarif" ] && [ -s "results.sarif" ]; then
+            echo "Found results.sarif"
+            echo "File size: $(wc -c < results.sarif) bytes"
+            if command -v jq &> /dev/null; then
+              echo "Using jq to parse SARIF"
+              findings_count=$(jq '.runs[0].results | length // 0' results.sarif 2>/dev/null || echo "0")
+              echo "findings_count=$findings_count" >> $GITHUB_OUTPUT
+              echo "Detected $findings_count findings"
+              if [ "$findings_count" -gt 0 ]; then
+                echo "has_findings=true" >> $GITHUB_OUTPUT
+                jq -r '.runs[0].results[] | "### \(.ruleId // "Unknown Rule")\n" + "- **File:** `\(.locations[0].physicalLocation.artifactLocation.uri // "Unknown")`\n" + "- **Line:** \(.locations[0].physicalLocation.region.startLine // "Unknown")\n" + "- **Message:** \(.message.text // "No message")\n"' results.sarif > findings_summary.txt
+              else
+                echo "has_findings=false" >> $GITHUB_OUTPUT
+                echo "findings_count=0" >> $GITHUB_OUTPUT
+              fi
+          else
+            echo "jq not available, using fallback detection"
+            if grep -q '"ruleId"\|"locations"' results.sarif; then
+              echo "has_findings=true" >> $GITHUB_OUTPUT
+              echo "findings_count=unknown" >> $GITHUB_OUTPUT
+            else
+              echo "has_findings=false" >> $GITHUB_OUTPUT
+              echo "findings_count=0" >> $GITHUB_OUTPUT
+              fi
+      - name: Process GitLeaks results
+        if: steps.check-findings.outputs.has_findings == 'true'
+        run: |
+          echo "GitLeaks found secrets, creating issue..."
+          echo "## Security Scan Results - $(date)" > issue_body.md
+          echo "" >> issue_body.md
+          echo "🚨 **GitLeaks detected potential secrets in repository**" >> issue_body.md
+          echo "" >> issue_body.md
+          echo "**Scan Type:** ${{ github.event.inputs.scan_type || 'scheduled' }}" >> issue_body.md
+          echo "**Triggered:** ${{ github.event_name }}" >> issue_body.md
+          echo "**Findings Count:** ${{ steps.check-findings.outputs.findings_count }}" >> issue_body.md
+          echo "" >> issue_body.md
+          echo "### Detailed Findings:" >> issue_body.md
+          if [ -f "findings_summary.txt" ]; then
+            echo "### Detailed Findings:" >> issue_body.md
+            cat findings_summary.txt >> issue_body.md
+          else
+            echo "### Raw SARIF Findings:" >> issue_body.md
+            echo '```json' >> issue_body.md
+            head -c 5000 results.sarif >> issue_body.md
+            echo '```' >> issue_body.md
+            echo "*Note: Showing first 5KB of SARIF data due to size*" >> issue_body.md
+          fi
+          echo "" >> issue_body.md
+          echo "### Remediation Commands:" >> issue_body.md
+          echo "To remove these secrets from repository history, you can use:" >> issue_body.md
+          echo "" >> issue_body.md
+          echo '```bash' >> issue_body.md
+          echo "# Install BFG Repo-Cleaner" >> issue_body.md
+          echo "wget -O bfg.jar https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar" >> issue_body.md
+          echo "" >> issue_body.md
+          echo "# Remove specific strings from history" >> issue_body.md
+          echo "java -jar bfg.jar --replace-text <(echo 'YOUR_SECRET_HERE=REMOVED') --no-blob-protection" >> issue_body.md
+          echo "" >> issue_body.md
+          echo "# Or use git-filter-repo (recommended)" >> issue_body.md
+          echo "pip install git-filter-repo" >> issue_body.md
+          echo "git filter-repo --replace-text <(echo 'YOUR_SECRET_HERE==>REMOVED')" >> issue_body.md
+          echo "" >> issue_body.md
+          echo "# Force push after cleaning" >> issue_body.md
+          echo "git push origin --force --all" >> issue_body.md
+          echo '```' >> issue_body.md
+          echo "" >> issue_body.md
+          echo "### Next Steps:" >> issue_body.md
+          echo "1. **Review the findings above**" >> issue_body.md
+          echo "2. **Use opencode to help remove secrets:** Comment \`/oc help me remove these secrets\`" >> issue_body.md
+          echo "3. **Rotate any compromised credentials**" >> issue_body.md
+          echo "4. **Update any affected services**" >> issue_body.md
+          echo "" >> issue_body.md
+          echo "---" >> issue_body.md
+          echo "*This issue was automatically created by a security scan workflow*" >> issue_body.md
+      - name: Create GitHub Issue
+        if: steps.check-findings.outputs.has_findings == 'true'
+          uses: actions/github-script@v7
+          with:
+            script: |
+              const fs = require('fs');
+              
+              try {
+                const issueBody = fs.readFileSync('issue_body.md', 'utf8');
+                
+                const existingIssues = await github.rest.issues.listForRepo({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  state: 'open',
+                  labels: ['security', 'gitleaks']
+                });
+                
+                const today = new Date().toISOString().split('T')[0];
+                const title = "Security Alert: GitLeaks detected secrets - " + today;
+                
+                const existingToday = existingIssues.data.find(issue =>
+                  issue.title.includes(today) || issue.title.includes('Security Alert')
+                );
+                
+                if (existingToday) {
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: existingToday.number,
+                    body: "**New scan completed at " + new Date().toISOString() + "**\n\n" + issueBody
+                  });
+                  console.log("Updated existing issue #" + existingToday.number);
+                } else {
+                  const issue = await github.rest.issues.create({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    title: title,
+                    body: issueBody,
+                    labels: ['security', 'gitleaks', 'high-priority']
+                  });
+                  console.log("Created new issue #" + issue.data.number);
+                }
+              } catch (error) {
+                console.error('Error creating issue:', error);
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: "GitLeaks detected potential secrets during a security scan.\n\nPlease check the workflow logs for detailed information.\n\nScan triggered: ${{ github.event_name }}\nScan type: ${{ github.event.inputs.scan_type || 'scheduled' }}",
+                  labels: ['security', 'gitleaks', 'high-priority']
+                });
+              }
+      - name: Process GitLeaks results
+        if: steps.check-findings.outputs.has_findings == 'true'
+        run: |
+          echo "GitLeaks found secrets, creating issue..."
+          echo "## Security Scan Results - $(date)" > issue_body.md
+          echo "" >> issue_body.md
+          echo "🚨 **GitLeaks detected potential secrets in repository**" >> issue_body.md
+          echo "" >> issue_body.md
+          echo "**Scan Type:** ${{ github.event.inputs.scan_type || 'scheduled' }}" >> issue_body.md
+          echo "**Triggered:** ${{ github.event_name }}" >> issue_body.md
+          echo "**Findings Count:** ${{ steps.check-findings.outputs.findings_count }}" >> issue_body.md
+          echo "" >> issue_body.md
+          echo "### Detailed Findings:" >> issue_body.md
+          if [ -f "findings_summary.txt" ]; then
+            echo "### Detailed Findings:" >> issue_body.md
+            cat findings_summary.txt >> issue_body.md
+          else
+            echo "### Raw SARIF Findings:" >> issue_body.md
+            echo '```json' >> issue_body.md
+            head -c 5000 results.sarif >> issue_body.md
+            echo '```' >> issue_body.md
+            echo "*Note: Showing first 5KB of SARIF data due to size*" >> issue_body.md
+          fi
+          echo "" >> issue_body.md
+          echo "### Remediation Commands:" >> issue_body.md
+          echo "To remove these secrets from repository history, you can use:" >> issue_body.md
+          echo "" >> issue_body.md
+          echo '```bash' >> issue_body.md
+          echo "# Install BFG Repo-Cleaner" >> issue_body.md
+          echo "wget -O bfg.jar https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar" >> issue_body.md
+          echo "" >> issue_body.md
+          echo "# Remove specific strings from history" >> issue_body.md
+          echo "java -jar bfg.jar --replace-text <(echo 'YOUR_SECRET_HERE=REMOVED') --no-blob-protection" >> issue_body.md
+          echo "" >> issue_body.md
+          echo "# Or use git-filter-repo (recommended)" >> issue_body.md
+          echo "pip install git-filter-repo" >> issue_body.md
+          echo "git filter-repo --replace-text <(echo 'YOUR_SECRET_HERE==>REMOVED')" >> issue_body.md
+          echo "" >> issue_body.md
+          echo "# Force push after cleaning" >> issue_body.md
+          echo "git push origin --force --all" >> issue_body.md
+          echo '```' >> issue_body.md
+          echo "" >> issue_body.md
+          echo "### Next Steps:" >> issue_body.md
+          echo "1. **Review the findings above**" >> issue_body.md
+          echo "2. **Use opencode to help remove secrets:** Comment \`/oc help me remove these secrets\`" >> issue_body.md
+          echo "3. **Rotate any compromised credentials**" >> issue_body.md
+          echo "4. **Update any affected services**" >> issue_body.md
+          echo "" >> issue_body.md
+          echo "---" >> issue_body.md
+          echo "*This issue was automatically created by a security scan workflow*" >> issue_body.md
+      - name: Create GitHub Issue
+        if: steps.check-findings.outputs.has_findings == 'true'
+          uses: actions/github-script@v7
+          with:
+            script: |
+              const fs = require('fs');
+
+              try {
+                const issueBody = fs.readFileSync('issue_body.md', 'utf8');
+
+                const existingIssues = await github.rest.issues.listForRepo({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  state: 'open',
+                  labels: ['security', 'gitleaks']
+                });
+
+                const today = new Date().toISOString().split('T')[0];
+                const title = "Security Alert: GitLeaks detected secrets - " + today;
+
+                const existingToday = existingIssues.data.find(issue =>
+                  issue.title.includes(today) || issue.title.includes('Security Alert')
+                );
+
+                if (existingToday) {
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: existingToday.number,
+                    body: "**New scan completed at " + new Date().toISOString() + "**\n\n" + issueBody
+                  });
+                  console.log("Updated existing issue #" + existingToday.number);
+                } else {
+                  const issue = await github.rest.issues.create({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    title: title,
+                    body: issueBody,
+                    labels: ['security', 'gitleaks', 'high-priority']
+                  });
+                  console.log("Created new issue #" + issue.data.number);
+                }
+              } catch (error) {
+                console.error('Error creating issue:', error);
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: "Security Alert: GitLeaks detected secrets - " + new Date().toISOString().split('T')[0],
+                  body: "GitLeaks detected potential secrets during a security scan.\n\nPlease check the workflow logs for detailed information.\n\nScan triggered: " + github.event_name + "\nScan type: " + (github.event.inputs.scan_type || 'scheduled'),
+                  labels: ['security', 'gitleaks', 'high-priority']
+                });
+              }
