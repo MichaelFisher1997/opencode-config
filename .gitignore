@@ -1,0 +1,29 @@
+node_modules
+package.json
+bun.lock
+.gitignore
+# Lock files and backups
+*.lock
+*.bk
+*.bak
+*_backup*
+
+# Config backups
+opencode.json.bk
+opencode.jsonc.bk
+
+# Screenshots and temp files
+*.png
+*.jpg
+*.jpeg
+
+# Sensitive data (accounts, tokens)
+*accounts.json
+*accounts.*
+*auth.json
+*credentials.*
+*secrets.*
+
+# OS files
+.DS_Store
+Thumbs.db
