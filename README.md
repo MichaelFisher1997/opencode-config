@@ -16,7 +16,8 @@ My personal OpenCode AI configuration with multi-provider support, MCP servers, 
 |----------|--------|------|
 | **Google (Antigravity)** | Gemini 3 Pro, Claude 4.5 | OAuth |
 | **OpenAI (Codex)** | GPT 5.2 series | OAuth |
-| **ZhiPuAI** | GLM-4.7 | API Key |
+| **Z.AI** | GLM-4.7 (Coding Plan) | API Key |
+| **Minimax** | Via OpenRouter BYOD | API Key |
 
 ### 🤖 Available Models
 
@@ -42,6 +43,15 @@ My personal OpenCode AI configuration with multi-provider support, MCP servers, 
 ├── gpt-5.2-codex-low/medium/high     (272K ctx / 128K out)
 └── Reasoning effort: none → xhigh
 ```
+
+#### Coding Plans (Z.AI + OpenRouter)
+
+| Provider | Plan | Route |
+|----------|------|-------|
+| **Z.AI** | GLM-4.7 Coding Plan | Direct API |
+| **OpenRouter** | Minimax BYOK | Via OpenRouter |
+
+> **Note:** We use Z.AI's GLM Coding Plan for optimal performance. Minimax is available via OpenRouter's BYOK (Bring Your Own Key) for additional model diversity.
 
 ### 🔧 MCP Servers
 
