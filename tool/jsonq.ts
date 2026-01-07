@@ -11,7 +11,7 @@ export default tool({
     const json = JSON.parse(content)
 
     const result = args.expression.split('.').filter(k => k !== '').reduce((obj, key) => {
-      if (obj === null || obj === undefined) return undefined
+      if (obj === null || obj === undefined) return null
 
       if (key.match(/^\d+$/)) {
         const index = parseInt(key)
