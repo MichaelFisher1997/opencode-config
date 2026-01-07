@@ -6,6 +6,10 @@
     "opencode-antigravity-auth@1.2.7",
     "opencode-openai-codex-auth@4.2.0"
   ],
+  "instructions": [
+    "rules/package-manager.md",
+    "rules/sloid.md"
+  ],
   "autoshare": false,
   "autoupdate": true,
   "mcp": {
