@@ -1,6 +1,6 @@
 ---
 description: Senior Frontend Architect & Avant-Garde UI Designer with 15+ years experience in visual hierarchy, whitespace, and UX engineering
-mode: subagent
+mode: primary
 temperature: 0.2
 ---
 
