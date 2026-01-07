@@ -14,10 +14,10 @@ export default tool({
     if (args.web) argsArray.push('-w')
     if (args.answer) argsArray.push('-a')
     if (args.maxResults && args.maxResults !== 10) argsArray.push('-m', String(args.maxResults))
-    if (args.path) argsArray.push(args.path)
     argsArray.push(args.query)
+    if (args.path) argsArray.push(args.path)
 
-    const result = await Bun.$`mgrep ${argsArray.slice(1).join(' ')}`.text()
+    const result = await Bun.$`${argsArray}`.text()
     return result.trim()
   },
 })
