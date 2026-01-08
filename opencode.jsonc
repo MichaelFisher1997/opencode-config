@@ -3,7 +3,7 @@
   "model": "zai-coding-plan/glm-4.7",
   "small_model": "zai-coding-plan/glm-4.6v-flash",
   "plugin": [
-    "opencode-antigravity-auth@1.2.7",
+    "opencode-antigravity-auth@1.2.8",
     "opencode-openai-codex-auth@4.2.0"
   ],
   "instructions": [
@@ -36,8 +36,8 @@
       "name": "Google",
       "npm": "@ai-sdk/google",
       "models": {
-        "antigravity-gemini-3-pro-low": {
-          "name": "Gemini 3 Pro Low (Antigravity)",
+        "antigravity-gemini-3-pro": {
+          "name": "Gemini 3 Pro (Antigravity)",
           "thinking": true,
           "attachment": true,
           "limit": {
@@ -53,25 +53,14 @@
             "output": [
               "text"
             ]
-          }
-        },
-        "antigravity-gemini-3-pro-high": {
-          "name": "Gemini 3 Pro High (Antigravity)",
-          "thinking": true,
-          "attachment": true,
-          "limit": {
-            "context": 1048576,
-            "output": 65535
           },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
+          "variants": {
+            "low": {
+              "thinkingLevel": "low"
+            },
+            "high": {
+              "thinkingLevel": "high"
+            }
           }
         },
         "antigravity-gemini-3-flash": {
@@ -92,45 +81,8 @@
             ]
           }
         },
-        "gemini-3-pro-preview": {
-          "name": "Gemini 3 Pro Preview (CLI)",
-          "thinking": true,
-          "attachment": true,
-          "limit": {
-            "context": 1048576,
-            "output": 65535
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "gemini-3-flash-preview": {
-          "name": "Gemini 3 Flash Preview (CLI)",
-          "attachment": true,
-          "limit": {
-            "context": 1048576,
-            "output": 65536
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "antigravity-claude-sonnet-4-5": {
-          "name": "Claude Sonnet 4.5 (Antigravity)",
+        "antigravity-claude-sonnet-4-5-thinking": {
+          "name": "Claude Sonnet 4.5 Thinking (Antigravity)",
           "thinking": true,
           "attachment": true,
           "limit": {
@@ -146,10 +98,22 @@
             "output": [
               "text"
             ]
+          },
+          "variants": {
+            "low": {
+              "thinkingConfig": {
+                "thinkingBudget": 8192
+              }
+            },
+            "high": {
+              "thinkingConfig": {
+                "thinkingBudget": 32768
+              }
+            }
           }
         },
-        "antigravity-claude-sonnet-4-5-thinking-low": {
-          "name": "Claude Sonnet 4.5 Low (Antigravity)",
+        "antigravity-claude-opus-4-5-thinking": {
+          "name": "Claude Opus 4.5 Thinking (Antigravity)",
           "thinking": true,
           "attachment": true,
           "limit": {
@@ -165,101 +129,18 @@
             "output": [
               "text"
             ]
-          }
-        },
-        "antigravity-claude-sonnet-4-5-thinking-medium": {
-          "name": "Claude Sonnet 4.5 Medium (Antigravity)",
-          "thinking": true,
-          "attachment": true,
-          "limit": {
-            "context": 200000,
-            "output": 64000
           },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "antigravity-claude-sonnet-4-5-thinking-high": {
-          "name": "Claude Sonnet 4.5 High (Antigravity)",
-          "thinking": true,
-          "attachment": true,
-          "limit": {
-            "context": 200000,
-            "output": 64000
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "antigravity-claude-opus-4-5-thinking-low": {
-          "name": "Claude Opus 4.5 Low (Antigravity)",
-          "thinking": true,
-          "attachment": true,
-          "limit": {
-            "context": 200000,
-            "output": 64000
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "antigravity-claude-opus-4-5-thinking-medium": {
-          "name": "Claude Opus 4.5 Medium (Antigravity)",
-          "thinking": true,
-          "attachment": true,
-          "limit": {
-            "context": 200000,
-            "output": 64000
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
-          }
-        },
-        "antigravity-claude-opus-4-5-thinking-high": {
-          "name": "Claude Opus 4.5 High (Antigravity)",
-          "thinking": true,
-          "attachment": true,
-          "limit": {
-            "context": 200000,
-            "output": 64000
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
+          "variants": {
+            "low": {
+              "thinkingConfig": {
+                "thinkingBudget": 8192
+              }
+            },
+            "high": {
+              "thinkingConfig": {
+                "thinkingBudget": 32768
+              }
+            }
           }
         }
       }
