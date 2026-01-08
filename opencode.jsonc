@@ -8,7 +8,7 @@
   ],
   "instructions": [
     "rules/package-manager.md",
-    "rules/sloid.md"
+    "rules/solid.md"
   ],
   "autoshare": false,
   "autoupdate": true,
