@@ -61,7 +61,7 @@ Skills go in `skill/` directory:
 - Keywords section for discoverability
 
 ### Naming Conventions
-- **Files**: kebab-case (e.g., `mgrep.ts`, `my-tool.ts`)
+- **Files**: kebab-case (e.g., `my-tool.ts`)
 - **Skills**: kebab-case directory names (e.g., `solid-auditor`)
 - **Arguments**: camelCase in schema, natural language in descriptions
 - **Functions**: camelCase for all identifiers

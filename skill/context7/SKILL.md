@@ -110,8 +110,8 @@ context7_query-docs({
 ## When NOT to Use Context7
 
 Don't use Context7 for:
-- Searching local codebase (use mgrep instead)
-- General web searches (use mgrep --web instead)
+- Searching local codebase
+- General web searches
 - Running shell commands or local operations
 - File operations (read/write files)
 - Git operations

@@ -26,6 +26,10 @@
         "/home/micqdf/.nix-profile/bin/chromium"
       ],
       "enabled": true
+    },
+    "grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app"
     }
   },
   "provider": {

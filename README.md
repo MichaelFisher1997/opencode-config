@@ -60,18 +60,10 @@ My personal OpenCode AI configuration with multi-provider support, MCP servers, 
 | **Context7** | Remote | Documentation search for any library/framework |
 | **Chrome DevTools** | Local | Browser automation with Chromium |
 
-### 🛠️ Custom Tools
-
-- **`mgrep`** - Semantic search tool that replaces built-in grep/glob/websearch
-  - Searches local files semantically
-  - Includes web search results
-  - Auto-summarizes queries
-
 ### 🧠 Skills
 
 | Skill | Purpose |
 |-------|---------|
-| **mgrep** | Mandatory semantic search - use instead of Grep/Glob/WebSearch |
 | **github** | GitHub workflow best practices using `gh` CLI |
 
 ---
@@ -83,10 +75,8 @@ My personal OpenCode AI configuration with multi-provider support, MCP servers, 
 ├── opencode.jsonc          # Main configuration
 ├── AGENTS.md               # Agent instructions
 ├── skill/
-│   ├── mgrep/             # Semantic search skill
 │   └── github/            # GitHub workflow skill
 ├── tool/
-│   └── mgrep.ts           # Custom mgrep tool
 ├── .github/
 │   └── workflows/
 │       └── gitleaks.yml   # Secret scanning
@@ -148,16 +138,6 @@ opencode
 ---
 
 ## 💡 Usage Examples
-
-### Search Documentation
-
-```bash
-# Search local files
-mgrep "How are chunks defined in the parser?"
-
-# Search web with summary
-mgrep --web --answer "OpenCode custom tools documentation"
-```
 
 ### Use Specific Models
 
