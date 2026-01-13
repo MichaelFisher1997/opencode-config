@@ -11,6 +11,9 @@
   ],
   "autoshare": false,
   "autoupdate": true,
+  "keybinds": {
+    "variant_cycle": "ctrl+tab"
+  },
   "permission": {
     "bash": {
       "gh pr create": "ask",
@@ -18,7 +21,8 @@
       "gh pr edit": "ask",
       "gh issue create": "ask",
       "gh issue comment": "ask",
-      "gh issue edit": "ask"
+      "gh issue edit": "ask",
+      "gh issue close": "ask"
     }
   },
   "mcp": {
