@@ -27,3 +27,6 @@ opencode.jsonc.bk
 # OS files
 .DS_Store
 Thumbs.db
+antigravity-accounts.json
+antigravity-signature-cache.json
+antigravity-logs/
