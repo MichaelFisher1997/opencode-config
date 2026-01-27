@@ -16,29 +16,22 @@
   },
   "permission": {
     "bash": {
-      "gh pr create": "ask",
-      "gh pr comment": "ask",
-      "gh pr edit": "ask",
-      "gh issue create": "ask",
-      "gh issue comment": "ask",
-      "gh issue edit": "ask",
-      "gh issue close": "ask"
+      "gh pr create *": "ask",
+      "gh pr comment *": "ask",
+      "gh pr edit *": "ask",
+      "gh issue create *": "ask",
+      "gh issue comment *": "ask",
+      "gh issue edit *": "ask",
+      "gh issue close *": "ask",
+      "git branch *": "ask",
+      "git checkout -b *": "ask",
+      "git switch -c *": "ask"
     }
   },
   "mcp": {
     "context7": {
       "type": "remote",
       "url": "https://mcp.context7.com/mcp"
-    },
-    "chrome-devtools": {
-      "type": "local",
-      "command": [
-        "npx",
-        "chrome-devtools-mcp@latest",
-        "--executablePath",
-        "/home/micqdf/.nix-profile/bin/chromium"
-      ],
-      "enabled": true
     },
     "grep": {
       "type": "remote",
