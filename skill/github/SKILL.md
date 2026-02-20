@@ -1,6 +1,7 @@
 ---
 name: github
 description: GitHub workflow best practices using gh CLI and git. Use when working with GitHub repositories, pull requests, issues, or GitHub interactions.
+license: Apache 2.0
 ---
 # GitHub
 
