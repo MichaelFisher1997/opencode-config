@@ -3,7 +3,7 @@
 My personal OpenCode AI configuration with multi-provider support, MCP servers, and custom skills.
 
 ![OpenCode](https://img.shields.io/badge/OpenCode-AI%20Coding-blue?style=for-the-badge&logo=ai)
-![Models](https://img.shields.io/badge/20+-Models-green?style=for-the-badge)
+![Models](https://img.shields.io/badge/8+-Models-green?style=for-the-badge)
 ![Security](https://img.shields.io/badge/Gitleaks-Scanning-red?style=for-the-badge)
 
 ---
@@ -14,27 +14,11 @@ My personal OpenCode AI configuration with multi-provider support, MCP servers, 
 
 | Provider | Models | Auth |
 |----------|--------|------|
-| **Google (Antigravity)** | Gemini 3 Pro, Claude 4.5 | OAuth |
-| **OpenAI (Codex)** | GPT 5.2 series | OAuth |
-| **Z.AI** | GLM-4.7 (Coding Plan) | API Key |
+| **OpenAI (Codex)** | GPT series | OAuth |
+| **Z.AI** | GLM (Coding Plan) | API Key |
 | **Minimax** | Via OpenRouter BYOD | API Key |
 
 ### 🤖 Available Models
-
-#### Google (Antigravity + CLI)
-```
-🤖 Thinking Models
-├── antigravity-gemini-3-pro-low      (1M ctx / 64K out)
-├── antigravity-gemini-3-pro-high     (1M ctx / 64K out)
-├── antigravity-claude-sonnet-4-5     (200K ctx / 64K out)
-├── antigravity-claude-opus-4-5       (200K ctx / 64K out)
-└── Thinking variants (low/medium/high)
-
-⚡ Fast Models
-├── antigravity-gemini-3-flash        (1M ctx / 64K out)
-├── gemini-3-pro-preview              (1M ctx / 64K out)
-└── gemini-3-flash-preview            (1M ctx / 64K out)
-```
 
 #### OpenAI (Codex OAuth)
 ```
@@ -48,7 +32,7 @@ My personal OpenCode AI configuration with multi-provider support, MCP servers, 
 
 | Provider | Plan | Route | Notes |
 |----------|------|-------|-------|
-| **Z.AI** | GLM-4.7 Coding Plan | Direct API | OpenRouter BYOK charges API cost, not coding plan |
+| **Z.AI** | GLM Coding Plan | Direct API | OpenRouter BYOK charges API cost, not coding plan |
 | **OpenRouter** | Minimax BYOK | Via OpenRouter | Uses Minimax coding plan API key |
 
 > **Why Mixed Setup?** We use OpenRouter BYOK to save on provider setup, allowing both Minimax and GLM through one provider. However, Z.AI's OpenRouter BYOK endpoint points to their API billing (not coding plan), so we use Z.AI directly for GLM models and Minimax via OpenRouter BYOK.
@@ -119,9 +103,6 @@ git clone https://github.com/MichaelFisher1997/opencode-config.git ~/.config/ope
 ### 3. Authenticate
 
 ```bash
-# Google (Antigravity) - OAuth
-opencode auth login
-
 # OpenAI (Codex) - OAuth
 opencode auth login
 
@@ -142,12 +123,6 @@ opencode
 ### Use Specific Models
 
 ```bash
-# Thinking model for complex tasks
-opencode --model google/antigravity-claude-opus-4-5-thinking-high "Design a system"
-
-# Fast model for quick tasks
-opencode --model google/antigravity-gemini-3-flash "Fix this typo"
-
 # Codex for coding tasks
 opencode --model openai/gpt-5.2-codex-high "Write unit tests"
 ```
@@ -165,25 +140,7 @@ opencode --model openai/gpt-5.2-codex-high "Write unit tests"
 
 ### Models
 
-Configure models in `opencode.jsonc`:
-
-```jsonc
-{
-  "model": "zai-coding-plan/glm-4.7",
-  "small_model": "zai-coding-plan/glm-4.6v-flash",
-  "provider": {
-    "google": {
-      "models": {
-        "antigravity-gemini-3-pro-high": {
-          "name": "Gemini 3 Pro High (Antigravity)",
-          "thinking": true,
-          "attachment": true
-        }
-      }
-    }
-  }
-}
-```
+Configure models in `opencode.jsonc`.
 
 ### MCP Servers
 
@@ -236,7 +193,6 @@ opencode mcp restart
 - [OpenCode Docs](https://opencode.ai/docs/)
 - [Context7 MCP](https://mcp.context7.com/)
 - [Gitleaks](https://github.com/gitleaks/gitleaks)
-- [Antigravity Auth](https://github.com/NoeFabris/opencode-antigravity-auth)
 - [Codex Auth](https://github.com/numman-ali/opencode-openai-codex-auth)
 
 ---

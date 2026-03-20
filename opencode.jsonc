@@ -2,18 +2,12 @@
   "$schema": "https://opencode.ai/config.json",
   "model": "zhipuai-coding-plan/glm-5",
   "small_model": "zhipuai-coding-plan/glm-4.7-flash",
-  "plugin": [
-    "opencode-antigravity-auth@latest"
-  ],
   "instructions": [
     "rules/package-manager.md",
     "rules/solid.md"
   ],
   "autoshare": false,
   "autoupdate": true,
-  "keybinds": {
-    "variant_cycle": "ctrl+tab"
-  },
   "permission": {
     "bash": {
       "gh pr create *": "ask",
@@ -41,107 +35,6 @@
   "provider": {
     "zhipuai": {
       "api": "https://api.z.ai/api/coding/paas/v4"
-    },
-    "google": {
-      "name": "Google",
-      "npm": "@ai-sdk/google",
-      "models": {
-        "antigravity-gemini-3-pro": {
-          "name": "Gemini 3 Pro (Antigravity)",
-          "thinking": true,
-          "attachment": true,
-          "limit": { "context": 1048576, "output": 65535 },
-          "modalities": { "input": ["text", "image", "pdf"], "output": ["text"] },
-          "variants": {
-            "low": { "thinkingLevel": "low" },
-            "high": { "thinkingLevel": "high" }
-          }
-        },
-        "antigravity-gemini-3.1-pro": {
-          "name": "Gemini 3.1 Pro (Antigravity)",
-          "thinking": true,
-          "attachment": true,
-          "limit": { "context": 1048576, "output": 65535 },
-          "modalities": { "input": ["text", "image", "pdf"], "output": ["text"] },
-          "variants": {
-            "low": { "thinkingLevel": "low" },
-            "high": { "thinkingLevel": "high" }
-          }
-        },
-        "antigravity-gemini-3-flash": {
-          "name": "Gemini 3 Flash (Antigravity)",
-          "thinking": true,
-          "attachment": true,
-          "limit": { "context": 1048576, "output": 65536 },
-          "modalities": { "input": ["text", "image", "pdf"], "output": ["text"] },
-          "variants": {
-            "minimal": { "thinkingLevel": "minimal" },
-            "low": { "thinkingLevel": "low" },
-            "medium": { "thinkingLevel": "medium" },
-            "high": { "thinkingLevel": "high" }
-          }
-        },
-        "antigravity-claude-sonnet-4-6": {
-          "name": "Claude Sonnet 4.6 (Antigravity)",
-          "attachment": true,
-          "limit": { "context": 200000, "output": 64000 },
-          "modalities": { "input": ["text", "image", "pdf"], "output": ["text"] }
-        },
-        "antigravity-claude-opus-4-6-thinking": {
-          "name": "Claude Opus 4.6 Thinking (Antigravity)",
-          "thinking": true,
-          "attachment": true,
-          "limit": { "context": 200000, "output": 64000 },
-          "modalities": { "input": ["text", "image", "pdf"], "output": ["text"] },
-          "variants": {
-            "low": { "thinkingConfig": { "thinkingBudget": 8192 } },
-            "max": { "thinkingConfig": { "thinkingBudget": 32768 } }
-          }
-        },
-
-        "gemini-3-flash-preview": {
-          "name": "Gemini 3 Flash Preview (Gemini CLI)",
-          "attachment": true,
-          "limit": { "context": 1048576, "output": 65536 },
-          "modalities": { "input": ["text", "image", "pdf"], "output": ["text"] }
-        },
-        "gemini-3-pro-preview": {
-          "name": "Gemini 3 Pro Preview (Gemini CLI)",
-          "attachment": true,
-          "limit": { "context": 1048576, "output": 65535 },
-          "modalities": { "input": ["text", "image", "pdf"], "output": ["text"] }
-        },
-        "gemini-3.1-pro-preview": {
-          "name": "Gemini 3.1 Pro Preview (Gemini CLI)",
-          "attachment": true,
-          "limit": { "context": 1048576, "output": 65535 },
-          "modalities": { "input": ["text", "image", "pdf"], "output": ["text"] }
-        },
-        "gemini-3.1-pro-preview-customtools": {
-          "name": "Gemini 3.1 Pro Preview Custom Tools (Gemini CLI)",
-          "attachment": true,
-          "limit": { "context": 1048576, "output": 65535 },
-          "modalities": { "input": ["text", "image", "pdf"], "output": ["text"] }
-        }
-      }
-    },
-    // "openrouter-pony": {
-    //   "npm": "@ai-sdk/openai-compatible",
-    //   "name": "OpenRouter - Pony",
-    //   "options": {
-    //     "baseURL": "https://openrouter.ai/api/v1",
-    //     "apiKey": "{env:OPENROUTER_API_KEY}"
-    //   },
-    //   "models": {
-    //     "pony-alpha": {
-    //       "id": "openrouter/pony-alpha",
-    //       "name": "Pony Alpha",
-    //       "limit": {
-    //         "context": 200000,
-    //         "output": 4096
-    //       }
-    //     }
-    //   }
-    // }
+    }
   }
 }
