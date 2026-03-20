@@ -49,7 +49,7 @@ My personal OpenCode AI configuration with multi-provider support, MCP servers, 
 | Skill | Purpose |
 |-------|---------|
 | **github** | GitHub workflow best practices using `gh` CLI |
-| **kernel** | Browser automation and deployment using the Kernel CLI |
+| **kernel** | Remote browser automation using the Kernel CLI |
 
 ---
 
