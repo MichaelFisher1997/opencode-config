@@ -30,6 +30,10 @@
     "grep": {
       "type": "remote",
       "url": "https://mcp.grep.app"
+    },
+    "kernel": {
+      "type": "remote",
+      "url": "https://mcp.onkernel.com/mcp"
     }
   },
   "provider": {
