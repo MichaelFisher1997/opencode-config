@@ -8,6 +8,10 @@
   ],
   "autoshare": false,
   "autoupdate": true,
+  "snapshot": true,
+  "watcher": {
+    "ignore": ["node_modules/**", ".git/**", "worktree/**"]
+  },
   "permission": {
     "bash": {
       "gh pr create *": "ask",
@@ -32,6 +36,7 @@
       "url": "https://mcp.grep.app"
     }
   },
+  "plugin": ["opencode-wakatime"],
   "provider": {
     "zhipuai": {
       "api": "https://api.z.ai/api/coding/paas/v4"
