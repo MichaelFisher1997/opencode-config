@@ -177,6 +177,14 @@ opencode auth list
 - Check plugin is loaded: `opencode models`
 - Ensure authentication is complete
 
+### Stale Model/Provider State
+
+If OpenCode keeps using old provider or model selections after config changes, clear the desktop state cache under `~/.local/share/ai.opencode.desktop/` and restart OpenCode.
+
+### Snapshots
+
+Snapshots are enabled in `opencode.jsonc` with `"snapshot": true` so workspace state is preserved between sessions.
+
 ### MCP Server Issues
 
 ```bash

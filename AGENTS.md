@@ -20,6 +20,8 @@
 - Check existing patterns before introducing new libraries
 - Verify solutions with tests when possible
 - Use the Task tool for complex parallel work
+- If OpenCode behaves inconsistently after config changes, check `~/.local/share/ai.opencode.desktop/` for stale state before assuming the live config is wrong
+- Keep `snapshot` enabled in `opencode.jsonc` when you want workspace state preserved across restarts
 
 ## Refactoring
 - Understand the code's purpose before changing it
