@@ -1,5 +1,5 @@
 ---
-name: schema-builder
+name: convex-schema-builder
 description: Design and generate Convex database schemas with proper validation, indexes, and relationships. Use when creating schema.ts or modifying table definitions.
 ---
 

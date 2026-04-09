@@ -1,5 +1,5 @@
 ---
-name: components-guide
+name: convex-components-guide
 description: Guide to using Convex components for feature encapsulation. Learn about sibling components, creating your own, and when to use components vs monolithic code.
 ---
 

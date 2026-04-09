@@ -1,5 +1,5 @@
 ---
-name: function-creator
+name: convex-function-creator
 description: Create Convex queries, mutations, and actions with proper validation, authentication, and error handling. Use when implementing new API endpoints.
 ---
 
