@@ -26,12 +26,33 @@ Use this skill when the user asks about:
 
 **Do NOT use** for local codebase questions, git operations, or non-model topics.
 
+## Finding Latest/Flagship Models
+
+When asked about "current," "latest," "flagship," "newest," or "state of the art" models, you **must** follow this discovery process:
+
+1. **Query by provider first** — Run `list --provider <provider>` for each major provider (anthropic, openai, google, deepseek, mistral, etc.) in parallel. This discovers all models including ones you may not know about.
+
+2. **Identify the latest by release_date** — From the results, find the model(s) with the most recent `release_date` per provider. Models.dev data is sorted by last_updated, but `release_date` is the authoritative field for when a model launched.
+
+3. **Then compare** — Once you've identified the latest models per provider, use `compare` to present them side-by-side if requested.
+
+**CRITICAL: Never assume you know model names.** The model landscape moves fast. Always query providers directly rather than searching for model names you already know. For example, searching `claude-opus-4` will miss `claude-opus-4-6`. Searching `gpt-5` will miss `gpt-5.4`.
+
+Major providers to check:
+- `anthropic` — Claude family
+- `openai` — GPT and o-series
+- `google` — Gemini family
+- `deepseek` — DeepSeek models
+- `mistral` — Mistral family
+- `xai` — Grok family
+- `meta` — Llama family
+
 ## How to Run
 
 All commands use `bun` and output JSON to stdout. Run from the skill directory:
 
 ```bash
-bun /home/micqdf/.config/opencode/skills/models-dev/models.ts <command> [args]
+bun /home/admin/.config/opencode/skills/models-dev/models.ts <command> [args]
 ```
 
 Data is fetched live from `https://models.dev/api.json` on each run.
@@ -151,27 +172,41 @@ Fields may be `null` if the data is unavailable for a given model.
 - The data reflects models.dev's current state; it may lag behind very recent announcements
 - If a model isn't found, try searching by partial name or provider
 - Cite the provider and model ID when giving answers
+- When answering "what's current/latest/flagship," never assume model names — always query providers directly (`list --provider <name>`) to discover the newest releases. Model names change quickly (e.g., `claude-opus-4` → `claude-opus-4-6`, `gpt-5` → `gpt-5.4`)
+- Use `release_date` (not `last_updated`) to determine which model is newest
 
 ## Examples
 
 **User**: "What's the cheapest model with 128k context?"
 ```bash
-bun /home/micqdf/.config/opencode/skills/models-dev/models.ts pricing --context 128000 --sort input --limit 5
+bun /home/admin/.config/opencode/skills/models-dev/models.ts pricing --context 128000 --sort input --limit 5
 ```
 
 **User**: "Compare Claude Opus and GPT-5"
 ```bash
-bun /home/micqdf/.config/opencode/skills/models-dev/models.ts compare claude-opus-4 gpt-5
+bun /home/admin/.config/opencode/skills/models-dev/models.ts compare claude-opus-4 gpt-5
 ```
 
 **User**: "Which models support tool calling and have reasoning?"
 ```bash
-bun /home/micqdf/.config/opencode/skills/models-dev/models.ts list --tool-call --reasoning
+bun /home/admin/.config/opencode/skills/models-dev/models.ts list --tool-call --reasoning
 ```
 
 **User**: "What models does Google offer?"
 ```bash
-bun /home/micqdf/.config/opencode/skills/models-dev/models.ts list --provider google
+bun /home/admin/.config/opencode/skills/models-dev/models.ts list --provider google
+```
+
+**User**: "What are the current flagship models?" or "What's the latest from each provider?"
+```bash
+# Step 1: Discover latest models per provider (run in parallel)
+bun /home/admin/.config/opencode/skills/models-dev/models.ts list --provider anthropic
+bun /home/admin/.config/opencode/skills/models-dev/models.ts list --provider openai
+bun /home/admin/.config/opencode/skills/models-dev/models.ts list --provider google
+bun /home/admin/.config/opencode/skills/models-dev/models.ts list --provider deepseek
+# Step 2: Identify models with the most recent release_date per provider
+# Step 3: Compare them side-by-side if needed
+bun /home/admin/.config/opencode/skills/models-dev/models.ts compare claude-opus-4-6 gpt-5.4 gemini-2.5-pro
 ```
 
 ## Keywords
