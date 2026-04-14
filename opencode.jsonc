@@ -36,6 +36,11 @@
       "url": "https://mcp.grep.app"
     }
   },
+  "agent": {
+    "explore": {
+      "model": "minimax-coding-plan/MiniMax-M2.7"
+    }
+  },
   "provider": {
     "zhipuai": {
       "api": "https://api.z.ai/api/coding/paas/v4"
