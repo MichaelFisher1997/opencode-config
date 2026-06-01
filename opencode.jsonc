@@ -10,7 +10,31 @@
   "autoupdate": true,
   "snapshot": true,
   "watcher": {
-    "ignore": ["node_modules/**", ".git/**", "worktree/**"]
+    "ignore": [
+      ".git",
+      ".git/**",
+      "node_modules/**",
+      "worktree/**",
+      ".local/share/opencode/worktree/**",
+      ".local/share/opencode/snapshot/**",
+      ".local/share/opencode/tool-output/**",
+      "zig-cache/**",
+      ".zig-cache/**",
+      "target/**",
+      "dist/**",
+      "build/**",
+      "**/node_modules/**",
+      "**/.git/**",
+      "**/worktree/**",
+      "**/.local/share/opencode/worktree/**",
+      "**/.local/share/opencode/snapshot/**",
+      "**/.local/share/opencode/tool-output/**",
+      "**/zig-cache/**",
+      "**/.zig-cache/**",
+      "**/target/**",
+      "**/dist/**",
+      "**/build/**"
+    ]
   },
   "permission": {
     "bash": {
