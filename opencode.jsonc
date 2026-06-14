@@ -68,7 +68,24 @@
         "baseURL": "https://api.z.ai/api/coding/paas/v4",
         "apiKey": "{env:ZAI_API_KEY}"
       },
-      "models": {}
+      "models": {
+        "glm-5.2": {
+          "name": "GLM-5.2",
+          "reasoning": true,
+          "tool_call": true,
+          "modalities": { "input": ["text"] },
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cache_read": 0,
+            "cache_write": 0
+          },
+          "limit": {
+            "context": 1000000,
+            "output": 131072
+          }
+        }
+      }
     }
   }
 }
