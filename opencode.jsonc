@@ -66,7 +66,10 @@
       "name": "Zhipu AI Coding Plan",
       "options": {
         "baseURL": "https://api.z.ai/api/coding/paas/v4",
-        "apiKey": "{env:ZAI_API_KEY}"
+        "apiKey": "{env:ZAI_API_KEY}",
+        "headers": {
+          "Authorization": "Bearer {env:ZAI_API_KEY}"
+        }
       },
       "models": {
         "glm-5.2": {
