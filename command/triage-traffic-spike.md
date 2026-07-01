@@ -4,15 +4,17 @@ subtask: true
 ---
 You are triaging a **traffic spike / bot-traffic** incident for ONE Pantheon site using
 its already-collected nginx + php + mysql logs. Logs are present in the current folder.
-This investigation was kicked off by a Slack alert.
+This investigation was kicked off by a Slack alert from **our own monitoring bot** - a script
+we run that scans Pantheon's collected log data. It is NOT an alert from Pantheon themselves;
+do not phrase the ticket or report as "Pantheon alerted" - we detected this on our side.
 
-# Inputs (`$ARGUMENTS` = site name + the Slack alert string)
-Run the command from inside the logs folder, pasting the alert exactly as Slack emitted it:
+# Inputs (`$ARGUMENTS` = site name + our Slack alert string)
+Run the command from inside the logs folder, pasting the alert exactly as our bot emitted it:
 `/triage-traffic-spike Access-Ag 2026-06-30: 267,358 visits vs 107,407 avg (2.49x)`
 - **Site display name** = the FIRST token of `$ARGUMENTS` (e.g. `Access-Ag`).
   If missing, infer from the current directory / @collect-logs-rsync.sh.
 - **Alert string** = the REMAINING text, format `<YYYY-MM-DD>: <visits> visits vs <avg> avg (<ratio>x)`.
-  This is the trigger that fired - treat its visits/avg/ratio as the expected ballpark only.
+  This is our bot's trigger - treat its visits/avg/ratio as the expected ballpark only.
 - **Target date** (call it `DATE`) = the `YYYY-MM-DD` parsed from the alert string. If absent, use today UTC.
 - **Site slug** = display name lowercased, non-alphanumerics -> hyphens (e.g. `Access-Ag` -> `access-ag`).
 - **Log root** = `.` (the current directory; this is where the command runs).
@@ -76,13 +78,25 @@ hammered endpoint). Skip a category if nothing notable.
 
 ## Section 3: Pantheon WAF / AGCDN ticket (they control this - draft paste-ready)
 We do NOT control the Advanced Global CDN / WAF. Read the Site UUID + env from
-@collect-logs-rsync.sh (SITE_UUID / ENV) and produce a paste-ready ticket with:
+@collect-logs-rsync.sh (SITE_UUID / ENV), then produce a paste-ready ticket in Pantheon's
+**Subject + Description** format:
+
+**Subject:** one line - site name, env, date, and the ask in brief, e.g.
+`Access-Ag (dev) 2026-06-30 - bot/traffic spike: please add JA3 fingerprint blocks`.
+
+**Description:** must cover:
 - Spike summary (date, visits, 5-day avg, ratio, trigger status).
-- Bot breakdown: named bot UAs + counts, and the top client IPs/subnets to block or rate-limit.
+- Bot breakdown: named bot UAs + counts, and the top client IPs/subnets (as a fallback blocklist).
 - Abusive path patterns (e.g. credential-stuffing on /user/login across locales).
-- Explicit asks: review AGCDN edge logs; apply WAF rate-limit rules by IP/ASN; add a bot-UA
-  blocklist; protect the login endpoint; confirm DDoS/AGCDN caching behaviour; and share the
-  edge-side metrics we can't see.
-- Note that we have ORIGIN nginx logs only (no edge/GeoIP/ASN visibility) so Pantheon must corroborate.
+- Primary ask: block the offending bots by JA3/JA4 TLS fingerprint at the AGCDN/WAF edge.
+  State plainly that we CANNOT derive fingerprints ourselves - our logs are ORIGIN nginx only,
+  with no TLS-handshake layer, no JA3/JA4, no GeoIP/ASN. It is EXPECTED that Pantheon takes our
+  bot report (the UAs + IPs/subnets above), investigates it against their edge traffic, works out
+  the matching JA3/JA4 fingerprints, and adds them to the WAF fingerprint ruleset.
+- Fallback ask: if JA3-based rules aren't applicable for a given client, block or rate-limit by
+  the IPs and /24-/48 subnets listed above.
+- Investigation ask: have Pantheon dig into this traffic in detail - review the AGCDN edge logs,
+  correlate by ASN/GeoIP, confirm the bot-vs-human split, check DDoS/AGCDN caching behaviour, and
+  share the edge-side metrics we cannot see from origin.
 
 Run the pipelines above directly; do not estimate or paraphrase the numbers.
