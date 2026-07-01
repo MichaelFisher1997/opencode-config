@@ -8,15 +8,16 @@ This investigation was kicked off by a Slack alert from **our own monitoring bot
 we run that scans Pantheon's collected log data. It is NOT an alert from Pantheon themselves;
 do not phrase the ticket or report as "Pantheon alerted" - we detected this on our side.
 
-# Inputs (`$ARGUMENTS` = site name + our Slack alert string)
-Run the command from inside the logs folder, pasting the alert exactly as our bot emitted it:
-`/triage-traffic-spike Access-Ag 2026-06-30: 267,358 visits vs 107,407 avg (2.49x)`
-- **Site display name** = the FIRST token of `$ARGUMENTS` (e.g. `Access-Ag`).
-  If missing, infer from the current directory / @collect-logs-rsync.sh.
-- **Alert string** = the REMAINING text, format `<YYYY-MM-DD>: <visits> visits vs <avg> avg (<ratio>x)`.
+# Inputs (`$ARGUMENTS` = our Slack alert string ONLY)
+Run the command from inside the site's logs folder, pasting the alert exactly as our bot emitted it:
+`/triage-traffic-spike <YYYY-MM-DD>: <visits> visits vs <avg> avg (<ratio>x)`
+- **Site display name** = the current folder name, not the command arguments. Determine it from
+  `basename "$PWD"`. NEVER use a sample/example site name. If you cannot determine the folder name,
+  use `UNKNOWN_SITE` and state that the site name could not be determined.
+- **Alert string** = all of `$ARGUMENTS`, format `<YYYY-MM-DD>: <visits> visits vs <avg> avg (<ratio>x)`.
   This is our bot's trigger - treat its visits/avg/ratio as the expected ballpark only.
 - **Target date** (call it `DATE`) = the `YYYY-MM-DD` parsed from the alert string. If absent, use today UTC.
-- **Site slug** = display name lowercased, non-alphanumerics -> hyphens (e.g. `Access-Ag` -> `access-ag`).
+- **Site slug** = the current folder name lowercased, non-alphanumerics -> hyphens.
 - **Log root** = `.` (the current directory; this is where the command runs).
 
 The alert values are TRIGGER CONTEXT ONLY. You MUST still run the real pipelines below and
@@ -68,7 +69,6 @@ From the target-day lines compute:
 ## Section 1: Headline
 One line in this exact format (two spaces before the date), using YOUR COMPUTED figures:
 `<name> <slug>  <date>: <visits> visits vs <avg5> avg (<ratio>x) [TRIGGER MET|NOT MET]`
-e.g. `Access-Ag access-ag  2026-06-30: 140,888 visits vs 52,985 avg (2.66x) [TRIGGER MET]`
 If computed visits/avg differ from the Slack alert by >5%, append a short ` (alert: <visits> vs <avg> (<ratio>x))` note.
 
 ## Section 2: Site issues we control
@@ -81,8 +81,8 @@ We do NOT control the Advanced Global CDN / WAF. Read the Site UUID + env from
 @collect-logs-rsync.sh (SITE_UUID / ENV), then produce a paste-ready ticket in Pantheon's
 **Subject + Description** format:
 
-**Subject:** one line - site name, env, date, and a practical AGCDN/WAF request, e.g.
-`Access-Ag (dev) 2026-06-30 - bot traffic spike: request edge investigation and mitigation`.
+**Subject:** one line - current-folder site name, env, date, and a practical AGCDN/WAF request:
+`<site-name> (<env>) <date> - bot traffic spike: request edge investigation and mitigation`.
 
 **Description:** write this like a concise customer support ticket, not an AI-generated incident
 report. Use plain first-person plural language ("we observed", "we only have origin logs",
