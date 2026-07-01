@@ -27,7 +27,7 @@ call that out explicitly in Section 1.
 Find **bot traffic and traffic spikes**. Confirm whether the day is a real incident per the
 rule below, quantify the bots/abuse, then produce the 3-section report at the end.
 
-# Trigger rule (state this explicitly in the report)
+# Trigger rule (state this in Section 1 ONLY - never in the Pantheon ticket)
 A spike is confirmed ONLY when the target day's visits are **> 2x the previous 5-day average
 AND >= 100 visits**. Both must hold -> `[TRIGGER MET]`; otherwise `[TRIGGER NOT MET]` and you
 still produce the full report.
@@ -81,22 +81,34 @@ We do NOT control the Advanced Global CDN / WAF. Read the Site UUID + env from
 @collect-logs-rsync.sh (SITE_UUID / ENV), then produce a paste-ready ticket in Pantheon's
 **Subject + Description** format:
 
-**Subject:** one line - site name, env, date, and the ask in brief, e.g.
-`Access-Ag (dev) 2026-06-30 - bot/traffic spike: please add JA3 fingerprint blocks`.
+**Subject:** one line - site name, env, date, and a practical AGCDN/WAF request, e.g.
+`Access-Ag (dev) 2026-06-30 - bot traffic spike: request edge investigation and mitigation`.
 
-**Description:** must cover:
-- Spike summary (date, visits, 5-day avg, ratio, trigger status).
-- Bot breakdown: named bot UAs + counts, and the top client IPs/subnets (as a fallback blocklist).
-- Abusive path patterns (e.g. credential-stuffing on /user/login across locales).
-- Primary ask: block the offending bots by JA3/JA4 TLS fingerprint at the AGCDN/WAF edge.
-  State plainly that we CANNOT derive fingerprints ourselves - our logs are ORIGIN nginx only,
-  with no TLS-handshake layer, no JA3/JA4, no GeoIP/ASN. It is EXPECTED that Pantheon takes our
-  bot report (the UAs + IPs/subnets above), investigates it against their edge traffic, works out
-  the matching JA3/JA4 fingerprints, and adds them to the WAF fingerprint ruleset.
-- Fallback ask: if JA3-based rules aren't applicable for a given client, block or rate-limit by
-  the IPs and /24-/48 subnets listed above.
-- Investigation ask: have Pantheon dig into this traffic in detail - review the AGCDN edge logs,
-  correlate by ASN/GeoIP, confirm the bot-vs-human split, check DDoS/AGCDN caching behaviour, and
-  share the edge-side metrics we cannot see from origin.
+**Description:** write this like a concise customer support ticket, not an AI-generated incident
+report. Use plain first-person plural language ("we observed", "we only have origin logs",
+"could you please review"). Do NOT mention our internal trigger rule, the ">2x avg / >=100 visits"
+threshold, any "[TRIGGER MET/NOT MET]" label, or say Pantheon alerted us. Our own monitoring bot
+flagged the traffic from Pantheon's collected origin logs.
+
+The Description must include:
+- Site UUID and env from @collect-logs-rsync.sh.
+- Spike summary from our computed figures: date, visits, 5-day avg, and ratio only.
+- Origin-log evidence: named bot UAs + counts, top client IPs/subnets, and abusive path patterns
+  such as credential-stuffing on /user/login across locales.
+- A clear limitation statement: we only have origin nginx logs, so we cannot see TLS/client
+  fingerprints, JA3/JA4, ASN/GeoIP, or full edge request context.
+- Primary request: ask Pantheon to review AGCDN/WAF edge logs for the reported UAs, IPs/subnets,
+  paths, and time window; identify reusable edge-side indicators such as JA3/JA4/client TLS
+  fingerprints where available; and apply appropriate edge mitigation.
+- Mitigation preference: if Pantheon can identify stable JA3/JA4 or equivalent edge fingerprints,
+  ask them to block or rate-limit on those fingerprints. If not applicable, ask them to block or
+  rate-limit the listed IPs/subnets or equivalent ASN/edge indicators.
+- Follow-up request: ask Pantheon to share what they can from the edge side - confirmed fingerprints
+  or other matched indicators, ASN/GeoIP patterns, edge request volume, cache/origin-pass behaviour,
+  and any WAF/DDoS controls they applied.
+
+Avoid robotic or adversarial phrasing. Do not use all-caps emphasis like "CANNOT" or "EXPECTED".
+Do not overstate certainty; phrase the indicators as "observed in origin logs" and ask Pantheon to
+corroborate them against AGCDN/WAF data.
 
 Run the pipelines above directly; do not estimate or paraphrase the numbers.
