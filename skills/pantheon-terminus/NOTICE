@@ -1,0 +1,85 @@
+pantheon-terminus skill
+=======================
+
+This opencode skill ("pantheon-terminus") provides reference material for the
+Pantheon Terminus command-line interface.
+
+PROVENANCE
+----------
+The documentation content in this skill is derived from the Pantheon
+documentation ("Terminus Guide"), published by Pantheon Systems, Inc. at:
+
+  https://docs.pantheon.io/terminus
+
+and maintained as open-source Markdown in the repository:
+
+  https://github.com/pantheon-systems/documentation
+  (path: src/source/content/terminus/)
+
+Source files captured into this skill:
+  - 01-introduction.md          (distilled into SKILL.md overview)
+  - 02-install.md               -> references/install.md
+  - 03-examples.md              -> references/examples.md
+  - 04-commands.md              -> references/commands.md
+  - 05-scripting.md             -> references/scripting.md
+                                  + CI auth overview -> references/ci-integrations.md
+  - 06-plugins.md               -> references/commands.md
+  - 07-create.md                -> references/examples.md
+  - 08-directory.md             -> references/commands.md
+  - 09-configuration.md         -> references/commands.md
+  - 10-supported-terminus.md    -> references/install.md
+  - 11-updates.md               -> references/install.md
+  - 12-terminus-3-0.md          -> references/install.md
+  - 13-terminus-4-0.md          -> references/install.md
+  - ci/bitbucket.md             -> references/ci-integrations.md
+  - ci/circleci.md              -> references/ci-integrations.md
+  - ci/github-actions.md        -> references/ci-integrations.md
+  - ci/gitlab.md                -> references/ci-integrations.md
+
+The command directory table in references/commands.md is generated from
+`terminus list --raw` (Terminus 4.3.x), which is what the docs' `<Commands />`
+component renders at build time.
+
+Scraped: 2026-07-06.
+
+LICENSE
+-------
+The documentation text is licensed under the Creative Commons
+Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0). The full
+license is in the LICENSE file. See:
+  https://creativecommons.org/licenses/by-sa/4.0/
+
+Per Pantheon's own terms, code snippets within the documentation are
+additionally licensed under the MIT License.
+
+The frontmatter, overview prose, cheatsheet, and routing tables in SKILL.md
+that were authored for this skill (rather than copied verbatim) are offered
+under the same CC BY-SA 4.0 license for consistency.
+
+ATTRIBUTION
+-----------
+© Pantheon Systems, Inc. — https://docs.pantheon.io
+
+This skill is an unofficial convenience packaging of Pantheon's publicly
+available, openly licensed documentation. It is not affiliated with or
+endorsed by Pantheon Systems, Inc. Pantheon is a trademark of Pantheon
+Systems, Inc.
+
+TRANSFORMATIONS APPLIED
+-----------------------
+The source Markdown was normalized for use as static skill references:
+  - Docusaurus frontmatter (`---` metadata blocks) stripped.
+  - Custom JSX components converted to standard Markdown:
+      <Alert type="info|danger">     -> blockquotes
+      <Accordion>                    -> blockquotes
+      <TabList>/<Tab>                -> #### subsections
+      <CardGroup>/<Card>             -> tables
+      <Popover>                      -> inline parenthetical notes
+      <Download>/<Releases>/<Commands> -> inline pointers / generated tables
+  - Relative documentation links (e.g. /guides/drush) rewritten to absolute
+    URLs (https://docs.pantheon.io/...).
+  - Repository-relative image links rewritten to raw.githubusercontent.com URLs.
+  - Code-fence attributes (e.g. ```bash{promptUser: user}) normalized to plain
+    language tags.
+
+The prose content is otherwise reproduced verbatim from the upstream source.
