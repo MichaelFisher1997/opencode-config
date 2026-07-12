@@ -9,6 +9,9 @@
   "autoshare": false,
   "autoupdate": true,
   "snapshot": true,
+  "plugin": [
+    "./opencode-codex-identity-plugin.ts"
+  ],
   "watcher": {
     "ignore": [
       ".git",
