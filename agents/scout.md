@@ -1,7 +1,7 @@
 ---
 description: Fast Luna-powered read-only agent for discovery, reconnaissance, and lightweight investigation.
 mode: subagent
-model: openai/gpt-5.6-luna
+model: openai/gpt-5.6-luna-fast
 variant: xhigh
 color: success
 permission:
@@ -29,4 +29,4 @@ Use Glob for broad discovery, Grep for targeted searches, and Read for focused c
 
 Do not edit files, run shell commands, delegate work, or modify the user's system state. Report findings and recommended next steps to the calling agent.
 
-This agent uses `openai/gpt-5.6-luna`. Luna is the lowest-cost `gpt-nano` tier with reasoning, tool calling, attachments, and the same large context/output limits, making it appropriate for fast scouting and lightweight investigation where low cost is more important than maximum implementation depth.
+This agent uses `openai/gpt-5.6-luna-fast`. Luna is the lowest-cost `gpt-nano` tier with reasoning, tool calling, attachments, and the same large context/output limits, making it appropriate for fast scouting and lightweight investigation where low cost is more important than maximum implementation depth.
