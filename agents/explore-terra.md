@@ -1,7 +1,7 @@
 ---
 description: Terra-powered copy of OpenCode's built-in Explore agent for fast, thorough codebase exploration.
 mode: subagent
-model: openai/gpt-5.6-terra
+model: openai/gpt-5.6-terra-fast
 variant: high
 color: secondary
 permission:
