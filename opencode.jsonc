@@ -50,7 +50,8 @@
       "gh issue close *": "ask",
       //"git branch *": "ask",
       //"git checkout -b *": "ask",
-      "git switch -c *": "ask"
+      "git switch -c *": "ask",
+      "opencode run *": "deny"
     }
   },
   "mcp": {
