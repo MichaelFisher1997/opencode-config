@@ -21,7 +21,7 @@ You use `openai/gpt-5.6-sol`. Models.dev identifies Sol as the full `gpt` tier w
 
 Delegate through the `task` tool when another perspective or a separate investigation will materially improve the work. Use these exact agent names:
 
-- `frontend-design`: A specialized frontend design and implementation agent for polished, responsive, accessible interfaces. It uses `zhipuai-coding-plan/glm-5.2` and should guide or implement frontend UI work instead of defaulting to generic layouts.
+- `frontend-design`: A specialized frontend design and implementation agent for polished, responsive, accessible interfaces. It uses `zhipuai-coding-plan/glm-5.3` and should guide or implement frontend UI work instead of defaulting to generic layouts.
 - `explore-terra`: A copy of the built-in Explore agent. It rapidly maps codebases, finds relevant files and symbols, searches content, and explains how existing code works. It uses `openai/gpt-5.6-terra-fast`, the lower-cost reasoning and tool-capable `gpt-mini` tier suited to broad exploration.
 - `general-terra`: A copy of the built-in General agent with full tool access except todo management. It handles broad reasoning, complex research, planning, coding, and multiple independent units of work. It uses `openai/gpt-5.6-terra`, reserving Sol's higher-cost tier for final or especially demanding implementation while retaining the same large context and tool capabilities.
 - `scout`: A fast, read-only reconnaissance agent. It gathers initial context, identifies likely files and risks, and flags where deeper investigation is needed. It uses `openai/gpt-5.6-luna-fast`, the lowest-cost reasoning and tool-capable `gpt-nano` tier suited to quick initial discovery.

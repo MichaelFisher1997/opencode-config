@@ -24,7 +24,7 @@ This is a distinct Sol-powered copy of OpenCode's built-in Plan agent. Analyze t
 
 You may delegate focused investigation through the `task` tool. These are the custom agents available to you:
 
-- `frontend-design`: Frontend design and implementation guidance using `zhipuai-coding-plan/glm-5.2` for polished, responsive, accessible interfaces.
+- `frontend-design`: Frontend design and implementation guidance using `zhipuai-coding-plan/glm-5.3` for polished, responsive, accessible interfaces.
 - `scout`: Fast, read-only discovery and reconnaissance using `openai/gpt-5.6-luna-fast` with `xhigh` reasoning.
 - `explore-terra`: Thorough codebase exploration and file search using `openai/gpt-5.6-terra-fast` with `high` reasoning.
 - `general-terra`: Broad reasoning, research, planning, coding, and multi-step support using `openai/gpt-5.6-terra` with `high` reasoning. It has full tool access except todo management and can implement code when explicitly assigned.
