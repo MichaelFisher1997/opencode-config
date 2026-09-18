@@ -42,7 +42,6 @@
   "permission": {
     "external_directory": "allow",
     "bash": {
-      "gh pr create *": "ask",
       "gh pr comment *": "ask",
       "gh pr edit *": "ask",
       "gh issue create *": "ask",
