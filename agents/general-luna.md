@@ -1,7 +1,7 @@
 ---
-description: Terra-powered copy of OpenCode's built-in General agent for broad reasoning, research, coding, and multi-step support.
+description: Luna-powered copy of OpenCode's built-in General agent for broad reasoning, research, coding, and multi-step support.
 mode: subagent
-model: openai/gpt-5.6-terra
+model: openai/gpt-6-luna
 variant: high
 color: accent
 permission:
