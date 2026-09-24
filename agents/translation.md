@@ -1,8 +1,8 @@
 ---
 description: Translates and localizes text while preserving meaning, tone, formatting, and technical placeholders.
 mode: subagent
-model: openai/gpt-6-luna
-variant: xhigh
+model: openai/gpt-6-luna-fast
+variant: max
 color: info
 permission:
   edit: allow

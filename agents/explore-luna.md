@@ -1,8 +1,8 @@
 ---
 description: Luna-powered copy of OpenCode's built-in Explore agent for fast, thorough codebase exploration.
 mode: subagent
-model: openai/gpt-6-luna
-variant: high
+model: openai/gpt-6-luna-fast
+variant: max
 color: secondary
 permission:
   "*": deny

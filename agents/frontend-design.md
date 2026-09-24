@@ -2,6 +2,7 @@
 description: Specialized frontend design and implementation agent for polished, responsive, accessible interfaces.
 mode: subagent
 model: zhipuai-coding-plan/glm-5.3
+variant: max
 color: info
 ---
 

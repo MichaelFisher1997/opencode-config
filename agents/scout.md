@@ -1,8 +1,8 @@
 ---
 description: Fast Luna-powered read-only agent for discovery, reconnaissance, and lightweight investigation.
 mode: subagent
-model: openai/gpt-6-luna
-variant: xhigh
+model: openai/gpt-6-luna-fast
+variant: max
 color: success
 permission:
   "*": deny
@@ -29,4 +29,4 @@ Use Glob for broad discovery, Grep for targeted searches, and Read for focused c
 
 Do not edit files, run shell commands, delegate work, or modify the user's system state. Report findings and recommended next steps to the calling agent.
 
-This agent uses `openai/gpt-6-luna` with `xhigh` reasoning, making it appropriate for fast scouting and lightweight investigation.
+This agent uses `openai/gpt-6-luna-fast` with `max` reasoning, making it appropriate for fast scouting and lightweight investigation.

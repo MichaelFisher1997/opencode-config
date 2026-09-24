@@ -1,8 +1,8 @@
 ---
-description: Luna-powered copy of OpenCode's built-in General agent for broad reasoning, research, coding, and multi-step support.
+description: Sol-powered copy of OpenCode's built-in General agent for broad reasoning, research, coding, and multi-step support.
 mode: subagent
-model: openai/gpt-6-luna
-variant: high
+model: openai/gpt-6-sol
+variant: medium
 color: accent
 permission:
   todowrite: deny
