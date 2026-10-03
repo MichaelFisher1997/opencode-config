@@ -57,7 +57,10 @@ My personal OpenCode AI configuration with multi-provider support, MCP servers, 
 
 ```
 ~/.config/opencode/
-├── opencode.jsonc          # Main configuration
+├── opencode.jsonc          # V2 server configuration
+├── cli.json                # Global terminal settings and keybinds
+├── agents/                 # Custom agents (native V2 frontmatter)
+├── command/                # Slash commands (V2 also supports this legacy directory)
 ├── AGENTS.md               # Agent instructions
 ├── skill/
 │   └── github/            # GitHub workflow skill
@@ -89,10 +92,7 @@ This repo includes a GitHub Actions workflow that:
 
 ```bash
 # Using Bun (recommended)
-bun install -g opencode
-
-# Or via npm
-npm install -g opencode
+bun install -g --trust @opencode/cli
 ```
 
 ### 2. Clone This Config
@@ -148,9 +148,11 @@ Configure models in `opencode.jsonc`.
 ```jsonc
 {
   "mcp": {
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp"
+    "servers": {
+      "context7": {
+        "type": "remote",
+        "url": "https://mcp.context7.com/mcp"
+      }
     }
   }
 }
@@ -183,7 +185,17 @@ If OpenCode keeps using old provider or model selections after config changes, c
 
 ### Snapshots
 
-Snapshots are enabled in `opencode.jsonc` with `"snapshot": true` so workspace state is preserved between sessions.
+Snapshots are enabled in `opencode.jsonc` with `"snapshots": true` for filesystem undo and revert behavior.
+
+### OpenCode V2
+
+This configuration uses native V2 fields: `agents`, `permissions`, `plugins`, `mcp.servers`, `update`, and `experimental.policies`. Agent variants are appended to model references with `#`.
+
+Terminal settings live in `cli.json`, including Ctrl+Tab variant cycling and the built-in TPS display. The retained `tui.json` files are V1 settings and are ignored by V2 once `cli.json` exists.
+
+The Codex identity plugin lives in `plugins/codex-identity/` and uses `@opencode/plugin` and the V2 `model.request` hook. Install its dependency with `bun install` from that directory. Keep local `service.json` settings out of Git because they contain the background service password.
+
+Global instructions live in `AGENTS.md`; V2 does not currently load the additional files listed in `instructions`. Quit and restart OpenCode after migration. If a shared V2 service is already running, use `opencode service restart` to activate updated server configuration.
 
 ### MCP Server Issues
 
@@ -199,7 +211,8 @@ opencode mcp restart
 
 ## 📚 Resources
 
-- [OpenCode Docs](https://opencode.ai/docs/)
+- [OpenCode V2 Docs](https://opencode.ai/v2/docs/)
+- [V1 to V2 Migration](https://opencode.ai/v2/docs/migrate-v1)
 - [Context7 MCP](https://mcp.context7.com/)
 - [Gitleaks](https://github.com/gitleaks/gitleaks)
 - [Codex Auth](https://github.com/numman-ali/opencode-openai-codex-auth)

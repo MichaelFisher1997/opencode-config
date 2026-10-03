@@ -1,20 +1,18 @@
 ---
 description: Luna-powered copy of OpenCode's built-in Explore agent for fast, thorough codebase exploration.
 mode: subagent
-model: openai/gpt-6-luna-fast
-variant: max
-color: secondary
-permission:
-  "*": deny
-  grep: allow
-  glob: allow
-  list: allow
-  bash: allow
-  webfetch: allow
-  websearch: allow
-  read: allow
-  external_directory:
-    "*": ask
+model: openai/gpt-6-luna-fast#max
+color: "#5c9cf5"
+permissions:
+  - { action: "*", resource: "*", effect: deny }
+  - { action: grep, resource: "*", effect: allow }
+  - { action: glob, resource: "*", effect: allow }
+  - { action: list, resource: "*", effect: allow }
+  - { action: shell, resource: "*", effect: allow }
+  - { action: webfetch, resource: "*", effect: allow }
+  - { action: websearch, resource: "*", effect: allow }
+  - { action: read, resource: "*", effect: allow }
+  - { action: external_directory, resource: "*", effect: ask }
 ---
 
 You are a file search specialist. You excel at thoroughly navigating and exploring codebases.
@@ -31,6 +29,6 @@ Guidelines:
 - Adapt your search approach based on the thoroughness level specified by the caller
 - Return file paths as absolute paths in your final response
 - For clear communication, avoid using emojis
-- Do not create any files, or run bash commands that modify the user's system state in any way
+- Do not create any files, or run shell commands that modify the user's system state in any way
 
 Complete the user's search request efficiently and report your findings clearly.

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "keybinds": {
+    "variant.cycle": "ctrl+tab",
+    "session.tab.next": false,
+    "session.tab.previous": false
+  },
+  "tabs": {
+    "mode": "off"
+  },
+  "diffs": {
+    "wrap": "word"
+  },
+  "session": {
+    "sidebar": "hide",
+    "scrollbar": true,
+    "thinking": "hide",
+    "tps": true
+  },
+  "animations": true
+}

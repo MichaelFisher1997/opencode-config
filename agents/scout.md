@@ -1,19 +1,17 @@
 ---
 description: Fast Luna-powered read-only agent for discovery, reconnaissance, and lightweight investigation.
 mode: subagent
-model: openai/gpt-6-luna-fast
-variant: max
-color: success
-permission:
-  "*": deny
-  grep: allow
-  glob: allow
-  list: allow
-  read: allow
-  webfetch: allow
-  websearch: allow
-  external_directory:
-    "*": ask
+model: openai/gpt-6-luna-fast#max
+color: "#7fd88f"
+permissions:
+  - { action: "*", resource: "*", effect: deny }
+  - { action: grep, resource: "*", effect: allow }
+  - { action: glob, resource: "*", effect: allow }
+  - { action: list, resource: "*", effect: allow }
+  - { action: read, resource: "*", effect: allow }
+  - { action: webfetch, resource: "*", effect: allow }
+  - { action: websearch, resource: "*", effect: allow }
+  - { action: external_directory, resource: "*", effect: ask }
 ---
 
 You are a fast reconnaissance agent for initial investigation and context gathering.

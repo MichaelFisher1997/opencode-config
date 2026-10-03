@@ -1,6 +1,6 @@
 ---
 description: Triage a single-site traffic/bot spike from collected Pantheon nginx logs (trigger >2x 5-day avg AND >=100 visits)
-subtask: true
+subagent: true
 ---
 You are triaging a **traffic spike / bot-traffic** incident for ONE Pantheon site using
 its already-collected nginx + php + mysql logs. Logs are present in the current folder.

@@ -2,27 +2,24 @@
 description: Sol-powered copy of OpenCode's built-in Plan agent for read-only analysis and planning.
 mode: primary
 model: openai/gpt-5.6-sol
-color: warning
-permission:
-  question: allow
-  plan_exit: allow
-  task:
-    general: deny
-  external_directory:
-    "*": ask
-    "/home/micqdf/.local/share/opencode/plans/*": allow
-  edit:
-    "*": deny
-    ".opencode/plans/*.md": allow
-    "../../.local/share/opencode/plans/*.md": allow
-    "/home/micqdf/.local/share/opencode/plans/*.md": allow
+color: "#f5a742"
+permissions:
+  - { action: question, resource: "*", effect: allow }
+  - { action: plan_exit, resource: "*", effect: allow }
+  - { action: subagent, resource: general, effect: deny }
+  - { action: external_directory, resource: "*", effect: ask }
+  - { action: external_directory, resource: "/home/micqdf/.local/share/opencode/plans/*", effect: allow }
+  - { action: edit, resource: "*", effect: deny }
+  - { action: edit, resource: ".opencode/plans/*.md", effect: allow }
+  - { action: edit, resource: "../../.local/share/opencode/plans/*.md", effect: allow }
+  - { action: edit, resource: "/home/micqdf/.local/share/opencode/plans/*.md", effect: allow }
 ---
 
 This is a distinct Sol-powered copy of OpenCode's built-in Plan agent. Analyze the workspace, investigate questions, and produce a clear implementation plan without editing implementation files. You remain responsible for the final plan and its assumptions.
 
 ## Available subagents
 
-You may delegate focused investigation through the `task` tool. These are the custom agents available to you:
+You may delegate focused investigation through the `subagent` tool. These are the custom agents available to you:
 
 - `frontend-design`: Frontend design and implementation guidance using `zhipuai-coding-plan/glm-5.3` with `max` reasoning for polished, responsive, accessible interfaces.
 - `scout`: Fast, read-only discovery and reconnaissance using `openai/gpt-6-luna-fast` with `max` reasoning.

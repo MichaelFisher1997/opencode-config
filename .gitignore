@@ -1,5 +1,6 @@
 node_modules
 package.json
+!plugins/*/package.json
 bun.lock
 .gitignore
 # Lock files and backups
@@ -23,6 +24,7 @@ opencode.jsonc.bk
 *auth.json
 *credentials.*
 *secrets.*
+service.json
 
 # OS files
 .DS_Store

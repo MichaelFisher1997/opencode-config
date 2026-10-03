@@ -1,7 +1,7 @@
 ---
 description: Publish and babysit a PR; use /ship merge to also merge once green and permitted
 agent: build
-subtask: false
+subagent: false
 ---
 
 Deliver the current repository's work end to end. Execute this workflow rather than merely proposing commands.

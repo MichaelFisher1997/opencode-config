@@ -1,14 +1,13 @@
 ---
 description: Translates and localizes text while preserving meaning, tone, formatting, and technical placeholders.
 mode: subagent
-model: openai/gpt-6-luna-fast
-variant: max
-color: info
-permission:
-  edit: allow
-  bash: deny
-  task: deny
-  question: allow
+model: openai/gpt-6-luna-fast#max
+color: "#56b6c2"
+permissions:
+  - { action: edit, resource: "*", effect: allow }
+  - { action: shell, resource: "*", effect: deny }
+  - { action: subagent, resource: "*", effect: deny }
+  - { action: question, resource: "*", effect: allow }
 ---
 
 You are a specialized translation and localization agent.
